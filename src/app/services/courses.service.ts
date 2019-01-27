@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
-import {AngularFireDatabase} from "@angular/fire/database";
-import {Observable} from "rxjs/Observable";
-import {Course} from "../shared/model/course";
-import {Lesson} from "../shared/model/lesson";
+import {Injectable} from '@angular/core';
+import {AngularFireDatabase} from '@angular/fire/database';
+import {Observable} from 'rxjs/Observable';
+import {Course} from '../shared/model/course';
+import {Lesson} from '../shared/model/lesson';
 import {first, map} from 'rxjs/operators';
 
 @Injectable()
@@ -13,10 +13,10 @@ export class CoursesService {
   }
 
   findAllCourses(): Observable<Course[]> {
-      return this.db.list('courses')
-          .valueChanges()
-          .first()
-          .do(console.log);
+    return this.db.list('courses')
+      .valueChanges()
+      .first()
+      .do(console.log);
   }
 
 
@@ -27,16 +27,16 @@ export class CoursesService {
       .do(console.log);
   }
 
-  findCourseByUrl(courseUrl:string): Observable<Course> {
-      return this.db.list('courses', ref => ref.orderByChild('url').equalTo(courseUrl))
+  findCourseByUrl(courseUrl: string): Observable<Course> {
+    return this.db.list('courses', ref => ref.orderByChild('url').equalTo(courseUrl))
       .snapshotChanges()
       .pipe(
-        map( changes => {
+        map(changes => {
 
           const snap = changes[0];
 
-          return <Course> {
-            id:snap.payload.key,
+          return <Course>{
+            id: snap.payload.key,
             ...snap.payload.val()
           };
 
@@ -45,8 +45,8 @@ export class CoursesService {
       )
   }
 
-  findLessonsForCourse(courseId:string): Observable<Lesson[]> {
-      return <any>this.db.list('lessons', ref => ref.orderByChild('courseId').equalTo(courseId))
+  findLessonsForCourse(courseId: string): Observable<Lesson[]> {
+    return <any>this.db.list('lessons', ref => ref.orderByChild('courseId').equalTo(courseId))
       .valueChanges()
       .first();
   }

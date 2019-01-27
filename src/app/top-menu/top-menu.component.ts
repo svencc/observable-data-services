@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import {UNKNOWN_USER, UserService} from '../services/user.service';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 
 @Component({
   selector: 'top-menu',
@@ -7,9 +10,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TopMenuComponent implements OnInit {
 
-  constructor() { }
+  isLoggedIn$: Observable<boolean>;
+
+  constructor(private userService: UserService) { }
 
   ngOnInit() {
+    this.isLoggedIn$ = this.userService.user$.pipe(
+      map(user => user === UNKNOWN_USER)
+    );
   }
 
 }

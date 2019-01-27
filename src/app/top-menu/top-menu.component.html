@@ -4,12 +4,14 @@
             <a routerLink="home"
                routerLinkActive="menu-active">Home</a>
         </li>
-        <li>
+        <li *ngIf="isLoggedIn$ | async; else logout">
             <a routerLinkActive="menu-active" routerLink="login">Login</a>
         </li>
+      <ng-template #logout>
         <li>
             <a (click)="logout()">Logout</a>
         </li>
+      </ng-template>
     </ul>
 
 </header>
